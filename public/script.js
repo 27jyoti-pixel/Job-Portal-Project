@@ -1,13 +1,20 @@
 let jobs_container = document.querySelector(".jobs");
+let search = document.querySelector(".search")
+let jobs = []
 
-console.log("script si running")
+
 fetch('/jobs')
 .then((response)=>{
   return response.json();
 })
 .then((data)=>{
   // here data is an arr of objects
-  data.forEach((ele)=>{
+  jobs = data;
+  createCards(data);
+})
+
+function createCards(jobs){
+  jobs.forEach((ele)=>{
     let card = document.createElement('div')
     card.classList.add('card')
     let c_title = document.createElement('div')
@@ -65,4 +72,15 @@ fetch('/jobs')
     card.appendChild(right)
     jobs_container.appendChild(card)
   })
+}
+
+
+search.addEventListener('input',()=>{
+  let ipt = search.value 
+  let filteredJobs = jobs.filter((ele)=>{
+    return ele.title.includes(ipt);
+  })
+  
+  jobs_container.innerHTML=""
+  createCards(filteredJobs);
 })

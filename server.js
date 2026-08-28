@@ -7,6 +7,7 @@ const jobsRouter = require('./jobsRouter')
 
 app.use(cors())
 app.use('/jobs',jobsRouter)
+app.use(express.json())
 
 app.use(express.static('public'))
 
