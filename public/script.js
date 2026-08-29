@@ -2,6 +2,15 @@ let jobs_container = document.querySelector(".jobs");
 let search = document.querySelector(".search")
 let jobs = []
 
+let reset = document.querySelector('.reset')
+let top2 = document.querySelector(".top2")
+
+let resetMssg = null
+let applicationContainer = document.createElement('div')
+applicationContainer.classList.add('application-container')
+applicationContainer.style.display="none"
+document.querySelector('main').appendChild(applicationContainer)
+
 
 fetch('/jobs')
 .then((response)=>{
@@ -71,6 +80,108 @@ function createCards(jobs){
     right.appendChild(apply)
     card.appendChild(right)
     jobs_container.appendChild(card)
+
+
+    apply.addEventListener('click',()=>{
+      
+      let x = document.querySelector('.application-form')
+      console.log(x)
+      if(x){
+        return;
+      }
+      let form = document.createElement('form')
+      form.classList.add('application-form')
+      let heading = document.createElement('h1')
+      heading.classList.add('heading')
+      heading.style.fontFamily="Arial,sans-serif"
+      heading.textContent = `Apply for ${ele.title}`
+      form.appendChild(heading)
+
+      let ipt1 = document.createElement('div')
+      ipt1.classList.add('name-input')
+      let label = document.createElement('label')
+      label.textContent='Name'
+      label.style.fontSize="20px"
+      ipt1.appendChild(label)
+      let name = document.createElement('input')
+      name.classList.add('inputField')
+      name.type="text"
+      name.placeholder="Enter your full name"
+      ipt1.appendChild(name)
+      form.append(ipt1)
+      let ipt2 = document.createElement('div')
+      ipt2.classList.add('name-input2')
+      label = document.createElement('label')
+      label.textContent = "Email"
+      ipt2.appendChild(label)
+      let email = document.createElement('input')
+      email.classList.add('inputField')
+      email.type="email"
+      email.placeholder="Enter your email"
+      ipt2.appendChild(email)
+      form.append(ipt2)
+      let button = document.createElement('div')
+      button.classList.add('form-button')
+      let submit = document.createElement('button')
+      submit.classList.add('submit')
+      submit.textContent="Submit"
+      submit.type="submit"
+      button.appendChild(submit)
+      let cancel = document.createElement('button')
+      cancel.classList.add('cancel')
+      cancel.textContent="Cancel"
+      cancel.type="button"
+      button.append(cancel)
+      form.append(button)
+      applicationContainer.appendChild(form)
+      jobs_container.style.display="none"
+      applicationContainer.style.display="flex"
+
+    
+      cancel.addEventListener('click',()=>{
+        applicationContainer.style.display="none"
+        jobs_container.style.display="grid"
+        form.remove()
+      })
+
+      form.addEventListener('submit',(event)=>{
+        event.preventDefault();
+        fetch('/applications',{
+          method : 'POST',
+          headers : {
+            'Content-type' : 'application/json'
+          },
+          body : JSON.stringify({
+            name : name.value,
+            email : email.value
+          })
+        })
+        .then((res)=>{
+          console.log("response received")
+          return res.json()
+        })
+        .then((data)=>{
+          let mssg  =document.createElement('p')
+          mssg.textContent=data.message
+          mssg.style.fontSize="25px"
+          mssg.style.color="#27A844"
+          applicationContainer.appendChild(mssg)
+          form.style.display="none"
+          let back = document.createElement('button')
+          back.textContent="Back to Jobs"
+          back.classList.add('submit')
+          back.style.width="200px"
+          applicationContainer.appendChild(back)
+
+
+          back.addEventListener('click',()=>{
+            applicationContainer.style.display="none"
+            jobs_container.style.display="grid"
+            form.remove()
+          })
+        })
+      })
+    })
   })
 }
 
@@ -83,4 +194,31 @@ search.addEventListener('input',()=>{
   
   jobs_container.innerHTML=""
   createCards(filteredJobs);
+})
+
+
+reset.addEventListener('click',()=>{
+  fetch('/applications',{
+    method : "DELETE"
+  })
+  .then((res)=>{
+    return res.json();
+  })
+  .then((data)=>{
+    if(resetMssg){
+      resetMssg.remove()
+    }
+    resetMssg = document.createElement('p')
+    resetMssg.textContent=data.message
+    resetMssg.style.fontSize = "20px"
+    resetMssg.style.color = "red"
+    top2.appendChild(resetMssg)
+    top2.style.display="flex"
+    top2.style.gap = "20px"
+
+    setTimeout(()=>{
+      resetMssg.remove()
+      resetMssg=null
+    },3000)
+  })
 })

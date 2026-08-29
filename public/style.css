@@ -156,6 +156,79 @@ main{
   color: white;
 }
 
+.r button:hover{
+  cursor: pointer;
+}
+
 .c-mid-top{
   font-size: 14px;
+}
+
+.application-container{
+  height: 500px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: space-around;
+  border: 2px solid gray;
+  border-radius: 9px;
+  /* background-color: red; */
+}
+
+.application-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: space-evenly; */
+  gap: 45px;
+}
+
+.form-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+}
+.submit{
+  background-color:#27A844;
+  height: 40px;
+  width: 100px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  font-size: 18px;
+}
+
+.cancel{
+  background-color: #E84C3D;
+  height: 40px;
+  width: 100px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  font-size: 18px;
+}
+
+.name-input,.name-input2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.inputField{
+  outline: none;
+  height: 40px;
+  width: 400px;
+  border: none;
+  border-radius: 9px;
+  font-size: 16px;
+  border: 2px solid #EDEDED;
+  padding-left: 15px;
+}
+
+.cancel:hover,.submit:hover{
+  cursor: pointer;
 }
