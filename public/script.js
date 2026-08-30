@@ -146,6 +146,15 @@ function createCards(jobs){
 
       form.addEventListener('submit',(event)=>{
         event.preventDefault();
+        if(name.value.length===0 || email.value.length===0){
+          applicationContainer.innerHTML=''
+          let mssg  =document.createElement('p')
+          mssg.textContent='Enter valid details'
+          mssg.style.fontSize="25px"
+          mssg.style.color="red"
+          applicationContainer.appendChild(mssg)
+          return;
+        }
         fetch('/applications',{
           method : 'POST',
           headers : {
