@@ -153,7 +153,8 @@ function createCards(jobs){
           },
           body : JSON.stringify({
             name : name.value,
-            email : email.value
+            email : email.value,
+            job : ele.title
           })
         })
         .then((res)=>{
@@ -167,11 +168,83 @@ function createCards(jobs){
           mssg.style.color="#27A844"
           applicationContainer.appendChild(mssg)
           form.style.display="none"
+          let viewApplication = document.createElement('button')
+          viewApplication.classList.add('submit')
+          viewApplication.textContent='View Application'
+          applicationContainer.appendChild(viewApplication)
+          viewApplication.style.width = "200px"
           let back = document.createElement('button')
           back.textContent="Back to Jobs"
           back.classList.add('submit')
           back.style.width="200px"
           applicationContainer.appendChild(back)
+
+          viewApplication.addEventListener('click',()=>{
+            fetch('/applications',{
+              method : 'GET'
+            })
+            .then((res)=>{
+              return res.json();
+            })
+            .then((data)=>{
+              if(data.length===0){
+                applicationContainer.innerHTML=''
+                let mssg = document.createElement('p')
+                mssg.textContent='No application found'
+                applicationContainer.appendChild(mssg)
+                return;
+              } 
+              applicationContainer.innerHTML=''
+              data.forEach((ele)=>{
+                let names = ele.name 
+                let emails = ele.email 
+                let job = ele.job
+                
+                let p = document.createElement('div')
+                p.classList.add('p')
+      
+                let parent = document.createElement('div')
+                parent.classList.add('parent')
+                let n = document.createElement('div')
+                n.classList.add('n')
+                n.textContent='Name'
+                parent.appendChild(n)
+                let con = document.createElement('div')
+                con.textContent=names 
+                con.classList.add('con')
+                parent.appendChild(con)
+                p.appendChild(parent)
+
+
+                parent = document.createElement('div')
+                parent.classList.add('parent')
+                let e = document.createElement('div')
+                e.classList.add('e')
+                e.textContent = 'Email'
+                parent.appendChild(e)
+                con = document.createElement('div')
+                con.classList.add('con')
+                con.textContent = emails
+                parent.appendChild(con)
+                p.appendChild(parent)
+
+                parent = document.createElement('div')
+                parent.classList.add('parent')
+                let j = document.createElement('div')
+                j.classList.add('j')
+                j.textContent = 'Job Position'
+                parent.appendChild(j)
+                con = document.createElement('div')
+                con.classList.add('con')
+                con.textContent = job
+                parent.appendChild(con)
+                p.appendChild(parent)
+                applicationContainer.appendChild(p)
+                
+              })
+              
+            })
+          })
 
 
           back.addEventListener('click',()=>{

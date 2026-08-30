@@ -232,3 +232,33 @@ main{
 .cancel:hover,.submit:hover{
   cursor: pointer;
 }
+
+.parent{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.p{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  height: 850px;
+  width: 500px;
+  border: 2px solid #EDEDED;
+  border-radius: 9px;
+}
+
+/* name  email job*/
+.n , .e , .j{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.con{
+  font-size: 20px;
+}
+

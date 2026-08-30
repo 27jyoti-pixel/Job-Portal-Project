@@ -5,14 +5,15 @@ const application = []
 
 
 router.post('/',(req,res)=>{
-  const {name,email} = req.body
+  const {name,email,job} = req.body
   console.log(req.body) 
   application.push({
     name ,
-    email
+    email,
+    job
   })
   res.json({
-    message : 'Application got submitted'
+    message : `Application got submitted`
   })
 })
 
@@ -24,7 +25,7 @@ router.get('/',(req,res)=>{
 router.delete('/',(req,res)=>{
   application.length=0
   res.json({
-    message : "Applications reset successfull"
+    message : "Applications reset successful"
   })
 })
 
